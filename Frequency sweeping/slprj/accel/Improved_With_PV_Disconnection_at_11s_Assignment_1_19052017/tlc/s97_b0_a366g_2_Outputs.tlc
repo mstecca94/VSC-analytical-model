@@ -1,0 +1,94 @@
+%implements s97_b0_a366g_2_Outputs "C"
+
+%function Outputs(block, system) Output
+%assign cfgTxt = ""
+%openfile cfgTxt
+%assign localVarDecl = ""
+%openfile localVarDecl
+
+int32_T isHit;
+%closefile localVarDecl
+%assign _modelSS = ""
+
+isHit = ssIsSampleHit(S, 1, 0);
+if ((isHit != 0) && (ssIsMajorTimeStep(S) != 0)) {
+    if (rtu_Enable > 0.0) {
+        if (!localDW->NegSeqComputation_MODE) {
+            if (ssGetTaskTime(S, 1) != ssGetTStart(S)) {
+                ssSetBlockStateForSolverChangedAtMajorStep(S);
+            }
+%<SLibCGIRSetStatesDisabled(82, 54, 0)>\
+            localDW->NegSeqComputation_MODE = true;
+        }
+    } else {
+        if (localDW->NegSeqComputation_MODE) {
+            ssSetBlockStateForSolverChangedAtMajorStep(S);
+%<SLibCGIRSetStatesDisabled(82, 54, 1)>\
+%if !SLibCGSysFcnIsEmptyForTid(CompiledModel.System[38], "Disable",0)
+%if SLibCG_SystemFcnArgAccessed("Improved_With_PV_Disconnection_at_11s_Assignment_1_19052017_NegSeqComputation_Disable",38,0)
+%<SLibCG_AccessArg(2 ,0, 0)>
+%endif
+%if SLibCG_SystemFcnArgAccessed("Improved_With_PV_Disconnection_at_11s_Assignment_1_19052017_NegSeqComputation_Disable",38,1)
+%<SLibCG_AccessArg(2 ,0, 6)>
+%endif
+
+%<SLibCGIRGenReusableSysCall("Improved_With_PV_Disconnection_at_11s_Assignment_1_19052017_NegSeqComputation_Disable", ["S", "localDW"], 38, 0, 15, 0, 7, 38)>\
+
+%endif
+        }
+    }
+}
+if (localDW->NegSeqComputation_MODE) {
+    localB->B_39_0_0[0].re = localP->P_1[0].re * rtu_In.re - localP->P_1[0].im * rtu_In.im;
+    localB->B_39_0_0[0].im = localP->P_1[0].re * rtu_In.im + localP->P_1[0].im * rtu_In.re;
+    localB->B_39_0_0[1].re = localP->P_1[1].re * rtu_In_h.re - localP->P_1[1].im * rtu_In_h.im;
+    localB->B_39_0_0[1].im = localP->P_1[1].re * rtu_In_h.im + localP->P_1[1].im * rtu_In_h.re;
+    localB->B_39_0_0[2].re = localP->P_1[2].re * rtu_In_l.re - localP->P_1[2].im * rtu_In_l.im;
+    localB->B_39_0_0[2].im = localP->P_1[2].re * rtu_In_l.im + localP->P_1[2].im * rtu_In_l.re;
+    localB->B_39_1_0.re = (localB->B_39_0_0[0].re + localB->B_39_0_0[1].re) + localB->B_39_0_0[2].re;
+    localB->B_39_1_0.im = (localB->B_39_0_0[0].im + localB->B_39_0_0[1].im) + localB->B_39_0_0[2].im;
+    localB->B_39_2_0.re = localP->P_0 * localB->B_39_1_0.re;
+    localB->B_39_2_0.im = localP->P_0 * localB->B_39_1_0.im;
+    if (ssIsMajorTimeStep(S) != 0) {
+        srUpdateBC(localDW->NegSeqComputation_SubsysRanBC);
+    }
+}
+%closefile cfgTxt
+%<cfgTxt>
+%assign rtmArgSys = ::CompiledModel.System[::CompiledModel.System[::CompiledModel.RTWCGModules.RTWCGModule[2].CGSystemIdx].NonInlinedParentSystemIdx]
+%if SysFcnArgNeeded("Output", rtmArgSys.Interface.RTMArgDef, rtmArgSys.CurrentTID, FcnSysModuleIsRateGrouping(rtmArgSys, "Output"))
+%<SLibCG_AccessArg(2, 0, 0)>
+%endif
+%if SLibCG_ArgAccessed(2, 0, 0)
+%<SLibAccessArg(rtmArgSys.Interface.RTMArgDef, "Output", rtmArgSys.CurrentTID, FcnSysModuleIsRateGrouping(rtmArgSys, "Output"))>
+%endif
+%if (IsModelReferenceBaseSys(rtmArgSys) && (IsModelRefScalableBuild() || GenerateClassInterface)) ||...
+(GenerateClassInterface && SLibIsMultiInstanceServer(rtmArgSys))
+%<SLibCG_UndoAccessArg(2, 0, 0)>
+%endif
+%<LibSetSystemField(system, "CachedOutputLocalVars", localVarDecl)>
+%endfunction
+%function OutputsFcnProtoType(block, system) Output
+%assign fcnProtoType = ""
+%openfile fcnProtoType
+static void Improved_With_PV_Disconnection_at_11s_Assignment_1_19052017_NegSeqComputation(\
+%assign comma = ""
+%<comma>%<::tSimStructType> *S\
+%assign comma = ", "
+%<comma>real_T rtu_Enable\
+%assign comma = ", "
+%<comma>creal_T rtu_In\
+%assign comma = ", "
+%<comma>creal_T rtu_In_h\
+%assign comma = ", "
+%<comma>creal_T rtu_In_l\
+%assign comma = ", "
+%<comma>B_NegSeqComputation_Improved_With_PV_Disconnection_at_11s_Assignment_1_19052017_T *localB\
+%assign comma = ", "
+%<comma>DW_NegSeqComputation_Improved_With_PV_Disconnection_at_11s_Assignment_1_19052017_T *localDW\
+%assign comma = ", "
+%<comma>P_NegSeqComputation_Improved_With_PV_Disconnection_at_11s_Assignment_1_19052017_T *localP\
+%assign comma = ", "
+%closefile fcnProtoType
+%<SLibCG_SetFcnProtoType(2, 0, fcnProtoType)>
+%endfunction

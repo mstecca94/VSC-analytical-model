@@ -1,0 +1,13 @@
+#include "__cf_Assignment_1_17052017.h"
+#ifndef RTW_HEADER_Assignment_1_17052017_acc_types_h_
+#define RTW_HEADER_Assignment_1_17052017_acc_types_h_
+#include "rtwtypes.h"
+#include "multiword_types.h"
+typedef struct P_Saturation_Assignment_1_17052017_T_
+P_Saturation_Assignment_1_17052017_T ; typedef struct
+P_NegSeqComputation_Assignment_1_17052017_T_
+P_NegSeqComputation_Assignment_1_17052017_T ; typedef struct
+P_ZeroSeqComputation_Assignment_1_17052017_T_
+P_ZeroSeqComputation_Assignment_1_17052017_T ; typedef struct
+P_Assignment_1_17052017_T_ P_Assignment_1_17052017_T ;
+#endif

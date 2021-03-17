@@ -1,0 +1,88 @@
+%implements s97_b0_a366g_3_Outputs "C"
+
+%function Outputs(block, system) Output
+%assign cfgTxt = ""
+%openfile cfgTxt
+%assign localVarDecl = ""
+%openfile localVarDecl
+
+int32_T isHit;
+%closefile localVarDecl
+%assign _modelSS = ""
+
+isHit = ssIsSampleHit(S, 1, 0);
+if ((isHit != 0) && (ssIsMajorTimeStep(S) != 0)) {
+    if (rtu_Enable > 0.0) {
+        if (!localDW->ZeroSeqComputation_MODE) {
+            if (ssGetTaskTime(S, 1) != ssGetTStart(S)) {
+                ssSetBlockStateForSolverChangedAtMajorStep(S);
+            }
+%<SLibCGIRSetStatesDisabled(82, 55, 0)>\
+            localDW->ZeroSeqComputation_MODE = true;
+        }
+    } else {
+        if (localDW->ZeroSeqComputation_MODE) {
+            ssSetBlockStateForSolverChangedAtMajorStep(S);
+%<SLibCGIRSetStatesDisabled(82, 55, 1)>\
+%if !SLibCGSysFcnIsEmptyForTid(CompiledModel.System[39], "Disable",0)
+%if SLibCG_SystemFcnArgAccessed("Improved_With_PV_Disconnection_at_11s_Assignment_1_19052017_ZeroSeqComputation_Disable",39,0)
+%<SLibCG_AccessArg(3 ,0, 0)>
+%endif
+%if SLibCG_SystemFcnArgAccessed("Improved_With_PV_Disconnection_at_11s_Assignment_1_19052017_ZeroSeqComputation_Disable",39,1)
+%<SLibCG_AccessArg(3 ,0, 6)>
+%endif
+
+%<SLibCGIRGenReusableSysCall("Improved_With_PV_Disconnection_at_11s_Assignment_1_19052017_ZeroSeqComputation_Disable", ["S", "localDW"], 39, 0, 15, 0, 7, 39)>\
+
+%endif
+        }
+    }
+}
+if (localDW->ZeroSeqComputation_MODE) {
+    localB->B_41_0_0.re = (rtu_In.re + rtu_In_f.re) + rtu_In_o.re;
+    localB->B_41_0_0.im = (rtu_In.im + rtu_In_f.im) + rtu_In_o.im;
+    localB->B_41_1_0.re = localP->P_0 * localB->B_41_0_0.re;
+    localB->B_41_1_0.im = localP->P_0 * localB->B_41_0_0.im;
+    if (ssIsMajorTimeStep(S) != 0) {
+        srUpdateBC(localDW->ZeroSeqComputation_SubsysRanBC);
+    }
+}
+%closefile cfgTxt
+%<cfgTxt>
+%assign rtmArgSys = ::CompiledModel.System[::CompiledModel.System[::CompiledModel.RTWCGModules.RTWCGModule[3].CGSystemIdx].NonInlinedParentSystemIdx]
+%if SysFcnArgNeeded("Output", rtmArgSys.Interface.RTMArgDef, rtmArgSys.CurrentTID, FcnSysModuleIsRateGrouping(rtmArgSys, "Output"))
+%<SLibCG_AccessArg(3, 0, 0)>
+%endif
+%if SLibCG_ArgAccessed(3, 0, 0)
+%<SLibAccessArg(rtmArgSys.Interface.RTMArgDef, "Output", rtmArgSys.CurrentTID, FcnSysModuleIsRateGrouping(rtmArgSys, "Output"))>
+%endif
+%if (IsModelReferenceBaseSys(rtmArgSys) && (IsModelRefScalableBuild() || GenerateClassInterface)) ||...
+(GenerateClassInterface && SLibIsMultiInstanceServer(rtmArgSys))
+%<SLibCG_UndoAccessArg(3, 0, 0)>
+%endif
+%<LibSetSystemField(system, "CachedOutputLocalVars", localVarDecl)>
+%endfunction
+%function OutputsFcnProtoType(block, system) Output
+%assign fcnProtoType = ""
+%openfile fcnProtoType
+static void Improved_With_PV_Disconnection_at_11s_Assignment_1_19052017_ZeroSeqComputation(\
+%assign comma = ""
+%<comma>%<::tSimStructType> *S\
+%assign comma = ", "
+%<comma>real_T rtu_Enable\
+%assign comma = ", "
+%<comma>creal_T rtu_In\
+%assign comma = ", "
+%<comma>creal_T rtu_In_f\
+%assign comma = ", "
+%<comma>creal_T rtu_In_o\
+%assign comma = ", "
+%<comma>B_ZeroSeqComputation_Improved_With_PV_Disconnection_at_11s_Assignment_1_19052017_T *localB\
+%assign comma = ", "
+%<comma>DW_ZeroSeqComputation_Improved_With_PV_Disconnection_at_11s_Assignment_1_19052017_T *localDW\
+%assign comma = ", "
+%<comma>P_ZeroSeqComputation_Improved_With_PV_Disconnection_at_11s_Assignment_1_19052017_T *localP\
+%assign comma = ", "
+%closefile fcnProtoType
+%<SLibCG_SetFcnProtoType(3, 0, fcnProtoType)>
+%endfunction
